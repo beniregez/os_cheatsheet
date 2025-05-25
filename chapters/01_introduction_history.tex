@@ -1,0 +1,36 @@
+\subsubsection*{1a) Introduction}
+
+\textbf{What is an OS?} An intermediary between user and hardware. \textbf{Functions:} Resource allocator (resolves conflicts for fair and efficient resource use), control program (prevents errors, improper use). \textbf{Always running:} OS kernel. \textbf{Goals:} Program execution, user convenience, efficient hardware utilization. \textbf{Position:} Between hardware and user mode (kernel mode).
+
+\textbf{Components of a CS:}\\
+- \textbf{Hardware} provides basic computing resources (CPU, memory, I/O devices)\\
+- \textbf{OS} controls and coordinates use of hw among various apps and users\\
+- \textbf{App programs} define how system resources are used to solve user problems (web browsers, compilers, games)\\
+- \textbf{Users} (people, machines, other computers)\\
+
+\textbf{System organization:} Bus connects CPU, memory, and device controllers; concurrent execution leads to memory access competition. \textbf{I/O:} Local buffer in device controller, device driver (OS component), CPU moves data to/from main bus. Device signals completion via interrupt; ISR uses interrupt vector, returns control to CPU (resumes from saved instruction). OS is interrupt-driven.
+
+\textbf{Memory:} Main memory (volatile, programs/data); non-volatile storage (HDD: tracks/sectors, SSD). \textbf{Hierarchy:} Access time, capacity, cost, volatility. \textbf{Caching:} Stores data from slower memory into faster storage (size, policy, management important). \textbf{DMA:} Direct Memory Access—device buffer $\rightarrow$ memory without CPU.
+
+\textbf{Key terms:} CPU (executes instructions), Processor (chip with CPUs), Core (basic computation unit), Multicore (multiple cores per chip), Multiprocessor (multiple processors per system). \textbf{Types:} AMP (asymmetric—specialized CPUs), SMP (symmetric—CPUs share all tasks). \textbf{Memory:} Shared-memory systems; NUMA (non-uniform memory access); Clusters (multiple systems linked via LAN, AMP/SMP possible, HPC).
+
+\textbf{Boot process:} Bootstrap program (firmware in ROM/EPROM), initializes system, loads kernel. \textbf{Modes:} Batch (multiprogramming: job scheduling, no interactivity); Time-sharing (interactive, multiple jobs, CPU scheduling, swapping, virtual memory). Dual mode (user/kernel), privileged instructions only in kernel mode; syscalls switch to kernel, return sets user mode. Multi-mode via Virtual Machine Monitor (VMM). ARMv8: 7 modes. \textbf{Timer:} Interrupts to prevent user-mode lockups.
+
+\textbf{Resources:} Process (active unit, needs resources, cleaned up on termination); Program (passive entity). Multiplexing CPU across processes. OS handles process creation/termination, suspend/resume, sync, communication, deadlocks. \textbf{Memory management:} Manages what is in memory, allocates/deallocates space. \textbf{Storage:} OS abstracts storage (files, directories), controls access, manages file system, backups. \textbf{Virtualization:} Run OS within OS (VMM required). Emulation: for different CPU types; Virtualization: same CPU type.
+
+\textbf{Kernel data structures:} Lists (single/double/circular, $O(n)$); Stacks (LIFO, function calls); Queues (FIFO, task waiting); Trees (parent-child, binary, balanced $O(\log n)$); Hash tables ($O(1)$, with linked lists for collisions); Bitmaps (status of $n$ items, 1=unavailable).
+
+
+\subsubsection*{1b) History}
+
+\textbf{Gen 1 (1940-1955):} Vacuum tubes, no OS (user=operator), assembler, linker, inefficient (manual I/O, one job at a time).
+
+\textbf{Gen 2 (1955-1965):} Transistors, batch systems, control cards (job type, program info), first rudimentary OS (job sequencing). CPU idle during I/O. Spooling (offline I/O into tapes, overlapping I/O and computation).
+
+\textbf{Gen 3 (1965-1980):} Integrated circuits, multiprogramming, spooling to memory, memory partitioning, time-sharing (interactive users, CPU scheduling, swapping, memory management, synchronization, communication). \textbf{CTSS:} Time-sharing prototype (interactive users, multiple jobs). \textbf{MULTICS:} Predecessor to UNIX (hierarchical file system, protection rings). \textbf{UNIX:} Modular (everything is a file), multitasking, multiuser, in C, open source from 1994. \textbf{Parallel OS:} 1960s onward: shared-memory multiprocessors, asynchronous events, independent tasks.
+
+\textbf{Gen 4 (1980-present):} PCs, microkernels (e.g., MINIX3: fault tolerance, user-mode drivers), Windows (from DOS, GUI, client-server), macOS, Linux (free, UNIX-like, user-driven). \textbf{Linux versions:} 0.01 (no networking), 1.0 (TCP/IP, devices, filesystems), 1.2 (PC-only), 2.x (SMP, kernel threads, modules), 3.x (fair scheduler), 4.x (x86, I/O improvements), 5.x (scheduler cleanup), 6.x (performance improvements). \textbf{Networked OS:} Illusion of single system, own local OS, Network Interface Controller (NIC), remote access. \textbf{DOS (Distributed OS):} Multiple processors per application, user unaware of program location, complex scheduling, delays. \textbf{NOS (Network OS):} Client-server model; DOS: coordinator-worker model.
+
+\textbf{Gen 5 (1990-present):} Mobile computing: early heavy devices, 70s "the brick," 90s Nokia, 98 SymbianOS, 02 BlackBerry, 07 iOS, 08 Android, 11 Windows Phone.
+
+\textbf{Ontogeny Recapitulates Phylogeny:} OS design influenced by hardware capabilities. Obsolete concepts sometimes return (e.g., microkernels).

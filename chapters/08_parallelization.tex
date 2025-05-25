@@ -1,0 +1,9 @@
+\subsubsection*{8) OpenMP \& Parallelization}
+Parallelization maps computation on data to parallel/distributed systems respecting dependencies. Key steps: analyze program parallelism, identify task/data parallelism, decompose granularity (fine, medium, coarse), and consider target system's communication cost.
+
+Dependencies include control (task order), data (flow, anti, output), and name dependencies. Mapping assigns subtasks spatially (which processor) and temporally (when), either statically or dynamically.
+
+OpenMP is a shared-memory API for multi-threading via compiler directives (\#pragma omp), runtime libs, and env variables (e.g., OMP\_NUM\_THREADS). It simplifies parallel code with minimal changes, portable across multicore, NUMA, GPUs. Parallel regions execute copies of code; loops can be parallelized with `\#pragma omp parallel for`. Threads share variables, requiring synchronization to avoid races. Key functions: omp\_set\_num\_threads(), omp\_get\_thread\_num(), omp\_in\_parallel(), omp\_get\_num\_procs(), omp\_set\_dynamic().
+
+Performance depends on enough parallelism, balanced load, data locality, and minimizing synchronization. Overheads arise from communication, especially between nodes. OpenMP is limited to shared-memory systems and lower parallel efficiency compared to distributed models like MPI.
+

@@ -1,0 +1,51 @@
+\documentclass{article}
+% \usepackage[landscape,a4paper, lmargin=10mm, rmargin=10mm, top=10mm, bottom=10mm]{geometry}
+% \usepackage[portrait, a4paper, lmargin=10mm, rmargin=10mm, top=10mm, bottom=10mm]{geometry}
+\usepackage[portrait, a4paper, margin=2mm]{geometry}
+\usepackage{multicol}
+\usepackage{lipsum} % zum Testen, kannst du später entfernen
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{setspace}
+\pagestyle{empty}
+
+% Layout-Anpassungen
+\setstretch{0.9}
+\setlength{\columnsep}{5mm}
+\setlength{\columnseprule}{0.4pt}
+\setlength{\parindent}{0pt}
+
+% \newcommand{\var}{\textit{var}}
+% \newcommand{\free}{\textit{free}}
+\newcommand{\imp}[1]{{\color{red} #1}} % red text is important
+
+\let\olditemize\itemize
+\renewcommand{\itemize}{\olditemize[itemindent=1mm, topsep=0mm, leftmargin=2mm, labelsep=0.5mm, parsep=0mm, itemsep=0mm]}
+\let\oldenumerate\enumerate
+\renewcommand{\enumerate}{\oldenumerate[itemindent=1mm, topsep=0mm, leftmargin=2mm, labelsep=0.5mm, parsep=0mm, itemsep=0mm]}
+
+\titleformat*\subsubsection{\scriptsize\bfseries}
+\titlespacing*{\subsubsection}{0mm}{2mm}{1mm}
+
+
+\begin{document}
+% \small
+% \footnotesize
+\scriptsize
+% \tiny
+
+% -------- Seite 1: z.B. 5 Spalten --------
+\begin{multicols}{4}
+    \input{chapters/01_introduction_history.tex}
+    \input{chapters/02_os_structures.tex}
+    \input{chapters/03_processes_threads_scheduling.tex}
+    \input{chapters/04_synchronization.tex}
+    \input{chapters/05_memory.tex}
+    \input{chapters/06_file_system.tex}
+    \input{chapters/07_virtualization.tex}
+    \input{chapters/08_parallelization.tex}
+    % \columnbreak
+\end{multicols}
+
+\end{document}

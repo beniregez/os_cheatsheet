@@ -1,0 +1,11 @@
+\subsubsection*{5a) Main Memory}
+Processes loaded from disk into memory, logical (virtual) vs. physical address: CPU generates logical addresses, MMU translates to physical (relocation register adds offset). Contiguous allocation: each process occupies a single, continuous memory block. Problems: external fragmentation (holes), internal fragmentation (wasted space). Fit algorithms: first-fit, best-fit, worst-fit. Solutions: compaction, paging.  
+\textbf{Paging:} Divide logical/physical memory into fixed-size pages/frames (power of 2). Page table maps page \texttt{p} to frame \texttt{f}. Logical address: (p,d), physical: (f,d). TLB caches page table entries. Protection: read/write/execute, valid/invalid bits. Shared pages for libraries. Page table structures: flat (small systems), hierarchical (multi-level page tables), hashed, inverted.  
+\textbf{Swapping:} Move process or pages between RAM and disk (swap space). Supports oversubscription, thrashing risk. Roll-in/out (whole processes), or page-based swapping (demand paging). Swap triggers when memory pressure increases.
+
+\subsubsection*{5b) Virtual Memory}
+Allows larger logical address space than physical. Programs partially loaded (demand paging). OS + MMU load pages on-demand, invalid/valid bits track page status. On page fault: trap, find frame, swap page in, update page table, restart. Copy-on-write (COW) on fork: pages shared until written.  
+\textbf{Page replacement:} Find victim frame when no free frame. Algorithms: FIFO (Belady anomaly), OPT (ideal, not implementable), LRU (approximates OPT).  
+\textbf{Frame allocation:} Equal, proportional (process size/priority), global (all frames), or local (per-process). Global replacement risks trashing (processes competing for frames). Thresholds: low → kernel reclaims; high → suspend reclamation.  
+\textbf{Trashing:} Excessive page faults due to overcommitment. Locality model: processes use working sets of pages. Working set model: \(\Delta\)-window tracks recent page usage; sum of working set sizes \(D\) must fit in RAM. If \(D\) exceeds available frames → suspend processes.  
+\textbf{Linux:} Global replacement, page lists (active/inactive), kswapd (background page-out daemon). NUMA systems: allocate memory near CPU for efficiency.

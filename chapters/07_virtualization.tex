@@ -1,0 +1,9 @@
+\subsubsection*{7) Virtualization}
+Virtualization abstracts hardware to create multiple execution environments (VMs). Host runs Hypervisor (VMM) that manages Guest VMs, each with virtualized CPU (VCPU) and memory. Benefits include running multiple OSes on one machine, prototyping, checkpointing, and migration.
+
+VMs use trap-and-emulate (guest runs in user mode, traps privileged instructions) or binary translation for instruction handling. Types: Type 0 (firmware-based), Type 1 (native hypervisors running directly on hardware), Type 2 (hosted on OS, slower). Paravirtualization modifies guest OS to avoid traps. Emulation runs different architectures, slower. Containers isolate apps sharing one OS kernel, providing lightweight virtualization.
+
+VMM manages CPU scheduling by multiplexing physical CPUs among guests, often overcommitting CPUs and memory. Memory uses nested page tables; storage appears as disk images or files. Live migration copies running guests between hosts with minimal downtime by iterative copying of pages and CPU state.
+
+Containers package apps with dependencies isolated via OS namespaces, enabling fast, portable deployment without full OS virtualization. Docker is a key container platform: images build apps layer by layer; containers run instances; engine manages lifecycle; registry distributes images.
+

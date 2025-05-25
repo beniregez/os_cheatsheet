@@ -1,0 +1,56 @@
+\subsubsection*{2) OS structures}
+
+\textbf{Services:}\\
+- \textit{Interface:} Command Line Interface (CLI), Graphical User Interface (GUI), Touch interface.\\
+- \textit{Program execution:} Load program into memory, run it, terminate upon completion.\\
+- \textit{I/O Operations:} File or device input/output.\\
+- \textit{File System Manipulation:} Read, write, create, delete, search, list, manage permissions for files and directories.\\
+- \textit{Communication:} Between processes (same machine or network), using shared memory or message passing.\\
+- \textit{Error Detection:} Handle CPU, memory, I/O, and user program errors, ensure consistency and correction.\\
+- \textit{Resource Allocation:} Manage resources like CPU cycles and memory during concurrency.\\
+- \textit{Accounting:} Track resource usage per user. \\
+- \textit{Protection and Security:} Access control, authentication, protect I/O devices against invalid access.\\
+
+\textbf{User Interfaces:} \\
+- \textit{CLI:} Command-line interpreter, e.g., shells; direct command input, system program or part of kernel. \\
+- \textit{GUI:} Graphical UI with desktop metaphor, mouse/keyboard input, visual interaction. \\
+- \textit{Touch:} Hand gestures, virtual keyboards, voice commands. \\
+
+\textbf{System Calls (Syscalls):} \\
+- Interface to OS services, accessed via high-level language (C/C++) APIs. \\
+- Syscalls pass parameters via registers, memory blocks, or stacks. \\
+- Return status (0 or -1) and values; implementation details abstracted by API.\\ \\
+\textbf{Types of syscalls:}
+\begin{flushleft}
+- \textbf{Process Control:} create\_process(), terminate\_process(), fork(), exit(), load(), exec(), wait\_time(), wait\_event(), signal\_event(), acquire\_lock(), release\_lock()\\
+- \textbf{File Management:} create(), delete(), open(), close(), read(), write(), lseek(), get$\mid$set\_file\_attributes() \\
+- \textbf{Device Management:} request(), release(), ioctl(), read(), write(), reposition(), get$\mid$set\_device\_attributes(), mount(), unmount() \\
+- \textbf{Information Maintenance:} time(), date(), alarm(), sleep(), dump(), getpid(), get$\mid$set\_process$\mid$file$\mid$device\_attributes()\\
+- \textbf{Communications:} get\_hostid(), get\_processid(), open$\mid$close\_connection(), wait\_for$\mid$accept\_connection(), pipe(), read$\mid$write\_message(), shared\_memory\_create$\mid$attach(), shmget(), mmap()\\
+- \textbf{Protection:} allow$\mid$deny\_user(), chmod(), chown(), set$\mid$get\_permission(), umask()\\
+\end{flushleft}
+
+\textbf{System Programs:} \\
+- Interfaces for syscalls, plus complex functions: \\
+\textbf{File Management:} Create / delete / copy / rename / print / dump / list files. \\
+\textbf{Status Info:} Date / time, available resources, performance, logs. \\
+\textbf{Programming Tools:} Compilers, assemblers, debuggers, interpreters. \\
+\textbf{Load/Execute:} Loaders, linkers, overlay loaders, debuggers. \\
+\textbf{Communication:} Pipes, sockets, browsing, file transfer, login. \\
+- Background programs: boot loaders, system startup, disk checkers, schedulers, loggers, daemons. \\
+
+\textbf{Program Lifecycle:} \\
+\textit{Preprocessing $\rightarrow$ Compilation $\rightarrow$ Linking $\rightarrow$ Loading $\rightarrow$ Execution}. \\
+- Compiler processes source code (.c) with preprocessor macros, then compiles to object code (.o). \\
+- Linker combines .o files and libraries into executables (static/dynamic linking). \\
+- Loader creates process, allocates memory, loads code, relocates addresses, starts execution. \\
+- Executing program = CPU running instructions, performing I/O, calculations. \\
+- Apps may need porting across OSes due to ISA/ABI differences, unless using interpreters (Python), virtual machines (JVM), or standardized APIs. \\
+
+\textbf{OS Structures:} \\
+- \textbf{Monolithic:} All kernel services in one large binary (UNIX/Linux). Fast, low overhead, but complex to manage. \\
+- \textbf{Modular:} Core kernel with dynamically loadable modules (object-oriented, extensible). \\
+- \textbf{Layered:} Each layer builds on the lower, e.g., hardware (0) to UI (N). \\
+- \textbf{Microkernel:} Minimal kernel; services in user space, communication via message passing. More secure, reliable, portable, but higher overhead. \\
+- \textbf{Hybrid:} Combines best aspects of monolithic, modular, and microkernel. \\
+\textbf{Examples:} Linux (monolithic + modular), Windows (monolithic + microkernel), MacOS X (hybrid, layered). \\
