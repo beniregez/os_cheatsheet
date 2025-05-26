@@ -2,6 +2,8 @@
 % chatpgt:
 A \textbf{process} is a program in execution, an active entity with a program counter, registers, stack (temporary data), data section (global vars), and heap (dynamic mem). A program on disk is passive; it becomes a process when loaded into memory. The \textbf{Process Control Block (PCB)} stores context: state, registers, memory management, I/O status, scheduling, and accounting info. A \textbf{context switch} saves the state of an old process and loads the new one, introducing time overhead. Threads allow multiple sequences of execution within a process.
 
+\includegraphics[width=0.95\linewidth]{images/03a_p09_process_states.png}
+
 \textbf{Process scheduling} maximizes CPU utilization via multiprogramming/time-sharing. Processes are in the ready queue (waiting for CPU) or the wait queue (blocked on I/O or events). The \textbf{CPU scheduler} (short-term) selects processes for execution, while the \textbf{job scheduler} (long-term) controls degree of multiprogramming. The \textbf{medium-term scheduler} reduces load by suspending/resuming processes.
 
 Processes can create other processes (forming a tree) with a unique PID. A child may inherit resources, execute concurrently or after the parent, share or copy address space. A process exits by \texttt{exit()} (parent may \texttt{wait()} for termination); a parent may \texttt{abort()} a child. Orphans are avoided by cascading termination. A \textbf{zombie} is a terminated child not yet \texttt{wait()}-ed for.
@@ -50,6 +52,7 @@ Processes for \textbf{higher separation \& security}.
 
 Linux treats threads as processes (no strict distinction); \texttt{clone()} creates threads, \texttt{fork()} creates separate processes. Threads share resources if specified by \texttt{clone()} flags.
 
+\includegraphics[width=0.95\linewidth]{images/03a_p14_threaded_process.png}
 
 \subsubsection*{3c) CPU Scheduling}
 
