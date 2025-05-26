@@ -1,24 +1,20 @@
 \subsubsection*{6a) File System Interface}
-The file system (FS) provides a logical abstraction for storing and accessing data on secondary storage. A file is a named collection of related information, independent of processes or syscalls. Key file attributes include name, identifier, type, location (pointer), size, timestamps (creation, modification, access), and protection rights. Core file operations by the OS include create (allocate space, directory entry), open (name resolution, permission check), read/write (via file handle), reposition (seek), delete (free space), and truncate (erase content). File types often indicated by extensions; internal file structure varies, supporting multiple types increases OS complexity.
-
-Access methods define how data is retrieved: sequential (read/write in order, like tape), direct (random access to fixed-size records or blocks, typical for disks), and indexed (builds on direct with an index for faster searching and access).
-
-Directory structures organize files and map names to file control blocks. Single-level directories use one global list of files; two-level separate directories per user allowing name reuse but no grouping; tree-based structures support hierarchical organization with absolute/relative paths and efficient traversal; acyclic graphs add support for shared subdirectories and links but require cycle detection to avoid loops.
-
-Memory-mapped files use virtual memory techniques to map disk blocks directly into process address space, allowing file data to be accessed like normal memory.
+FS = abstraction: stores data+progs, hides phys. storage. File = ADT by OS: seq of records (bytes/lines/etc.), e.g., ELF. User view: smallest unit on disk. Attributes: name, id, type, loc (ptr), size, timestamps, perms. Pos ptr per process for R/W; all ops (exc. create/del) $\to$ open.\\
+Ops: create (alloc+dir), open (name+perms), read/write (handle), seek, delete (free), truncate.\\
+Access: seq (read\_next, write\_next), direct (read(n), write(n)), indexed (index in RAM).\\
+Dir: single-level (global list), 2-level (per user), tree (abs/rel path), acyclic-graph (links$\to$files, resolve). Dir+files = on disk. No cycles: file-only links, GC, or detect on link add. Dir ops: search, create, delete, list, rename, traverse.\\
+Mem-mapped = alt to syscalls (open/R/W); shared mem via mmap.
 
 \subsubsection*{6b) FS Implementation}
-File systems (FS) enable efficient, convenient access to storage devices (disks, NVM). Disks allow direct block access with IO in block units. FS design balances user interface and internal algorithms/data structures mapping logical FS to physical storage. FS architecture is layered: application → logical FS → file organization → basic FS → IO control → device drivers/interrupt handlers. File organization manages files and logical blocks, including free space. Logical FS manages metadata and directory structure via file control blocks (FCBs). OS supports multiple FS types (e.g., UNIX FS, NTFS, FAT, ext3/4). Pseudo FS are virtual, in-memory kernel structures.
-
-FS operations rely on on-disk and in-memory structures: boot control block (boot info), volume control block (volume details), directory structure, and FCBs. Mounting makes a FS accessible, managed by a mount table. Caches for directory info, system-wide and per-process open file tables (with FCB copies or pointers), and buffers hold FS blocks.
-
-Name lookup can use linear lists (simple but slow) or hash tables (faster but collision-prone).
-
-Disk block allocation methods vary: contiguous allocation stores files in sequential blocks but suffers fragmentation and compaction overhead; linked allocation chains blocks via pointers, avoiding external fragmentation but with sequential access overhead; indexed allocation uses an index block pointing to data blocks enabling dynamic access without external fragmentation. Multilevel indexing combines these, with first-level index blocks pointing to secondary index blocks, allowing large files with efficient access.
-
-Free space management tracks free blocks via bitmaps (bit vectors) or linked lists. Grouping improves linked lists by storing multiple free block pointers in one block, reducing traversal overhead.
+FS enable access to storage (disks/NVM). Disks: blocks w/ sectors (512/4096 B).
+FS design balances UI \& algorithms mapping logical FS to physical. Layered arch.: app → logical FS (metadata, dirs, FCBs) → file org (files, logical blocks, free space) → basic FS → I/O ctrl → device drivers/interrupts. Pseudo-FS (e.g., /proc in Linux, at /proc) = virtual FS in kernel mem, file interface for system info (e.g., /proc/cpuinfo, /proc/[pid]/status, /proc/meminfo), contents generated on access. Pseudo-FS $\neq$ Gen-FS: no backing store, dynamic data, mostly r/o. Gen-FS: persistent, modifiable.  
+FS types: UNIX FS, NTFS, FAT, ext3/4.  
+On-disk/in-mem data: boot block (bootloader = blocks loading kernel from FS), volume ctrl block (superblock/MFT: \#blocks, block size, free-block count/pointers), dirs, FCBs. Mount = attach volume (e.g., /dev/sda1) at mount point (dir); volumes may span partitions (e.g., LVM). Mounting checks valid FS via device driver reading device dir.  
+Caches: dir info, open file tables (global + per-process w/ FCBs), block buffers.  
+Name lookup: linear list (slow), hash table (faster, collisions), ordered list (linked), B+ trees.  
+Block alloc: contiguous (fast, needs size, external frag, compaction), linked (pointers, no external frag, sequential access), indexed (index block(s), random access, overhead, handles via linked/multilevel/combined).  
+Free-space mgmt: bitmap (bit=free/used), free list (linked blocks, no contiguous alloc), grouping (list of free blocks per block).
 
 \subsubsection*{6c) FS Internals}
-A computer uses multiple storage devices, each divided into partitions—separated disk sections. A volume is a mountable unit formatted with a file system (FS), enabling OS read/write access. Files must be mounted before access; mounting associates a volume with a mount point, a directory in the existing directory tree, usually an empty folder.
-
-Partitions can be raw (no FS) or cooked (contain FS). The root partition holds the OS and is specified by the bootloader, mounted at boot. Other volumes may be mounted automatically during boot or manually afterward, allowing flexible storage management across devices.
+Storage devices split into partitions (e.g., /dev/sda1), each mountable as a volume (FS-formatted). Raw partition = no FS; cooked = has FS. Root partition: OS, bootloader specifies (loads kernel from FS). Other partitions: other OS, FS, user data; mounted auto/manual (e.g., /dev/sda1 at /home).  
+Mount = associate volume w/ mount point (dir in tree). Volumes must be mounted before access; OS verifies FS via device driver.

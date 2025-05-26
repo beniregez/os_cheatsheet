@@ -1,9 +1,24 @@
 \subsubsection*{7) Virtualization}
-Virtualization abstracts hardware to create multiple execution environments (VMs). Host runs Hypervisor (VMM) that manages Guest VMs, each with virtualized CPU (VCPU) and memory. Benefits include running multiple OSes on one machine, prototyping, checkpointing, and migration.
+\textbf{Virtualization:} abstraction of \textbf{hardware} (CPU, mem, I/O) for multiple isolated \textbf{environments (VMs)}. Overcomes \textbf{multicomputer model} limits (standalone machines) by combining reliability, isolation (sandboxing), and flexibility.
 
-VMs use trap-and-emulate (guest runs in user mode, traps privileged instructions) or binary translation for instruction handling. Types: Type 0 (firmware-based), Type 1 (native hypervisors running directly on hardware), Type 2 (hosted on OS, slower). Paravirtualization modifies guest OS to avoid traps. Emulation runs different architectures, slower. Containers isolate apps sharing one OS kernel, providing lightweight virtualization.
+\textbf{Components:} \textbf{Host} (HW), \textbf{Hypervisor (VMM)} (creates/manages VMs), \textbf{Guest} (process with virtual HW view).
 
-VMM manages CPU scheduling by multiplexing physical CPUs among guests, often overcommitting CPUs and memory. Memory uses nested page tables; storage appears as disk images or files. Live migration copies running guests between hosts with minimal downtime by iterative copying of pages and CPU state.
+\textbf{Types:} \textbf{Type 0} (\textbf{firmware partitions/domains}), small feature set. \textbf{Type 1} (native, datacenters, e.g., \texttt{ESXi}), runs in kernel mode, manages OSes, snapshots, cloning, balancing load. \textbf{Type 2} (hosted, e.g., \texttt{VirtualBox}), runs as a process on host OS, higher latency. Compare: \textbf{Type 1} → low latency, needs HW support, service providers; \textbf{Type 2} → high latency, no HW req., end-users.
 
-Containers package apps with dependencies isolated via OS namespaces, enabling fast, portable deployment without full OS virtualization. Docker is a key container platform: images build apps layer by layer; containers run instances; engine manages lifecycle; registry distributes images.
+\textbf{Building Blocks:} \textbf{VCPU} stores guest state, switched by VMM. \textbf{HW support} essential (e.g., \texttt{Intel VT-x}, \texttt{AMD-V}), incl. nested page tables, DMA, interrupts. \textbf{Trap \& Emulate:} guest runs in \textbf{virtual user/kernel mode} (both in HW user mode); traps on priv. instr. \textbf{Binary Translation:} rewrites priv. instr. on CPUs w/o clean separation. \textbf{Emulation:} simulates different ISA, slow.
 
+\textbf{Paravirtualization:} modify guest OS to avoid traps.
+
+\textbf{Programming Env VM:} e.g., \texttt{JVM} abstracts exec. env., cross-OS portability.
+
+\textbf{Containers:} App-level isolation via \textbf{OS namespaces}; each has own FS, net stack, users. Lightweight, fast start, no full OS. \textbf{Docker}: \textbf{Image} (layers: e.g., Ubuntu, Python), \textbf{Container} (instance), \textbf{Engine}, \textbf{Registry}. Shared layers reduce redundancy. Compare VMs vs Containers: \textbf{VMs} heavy, slow, full OS, hardware virt.; \textbf{Containers} light, fast, process-level isolation, share OS.
+
+\textbf{CPU Scheduling:} VMM schedules VCPUs on physical CPUs; \textbf{overcommit} = more VCPUs than CPUs.
+
+\textbf{Memory Mgmt:} VMM mediates guest/host mem; uses nested page tables. \textbf{Overcommit:} total guest alloc > physical mem. VMM uses own paging, replacement.
+
+\textbf{Storage:} VMs see \textbf{disk images} (Type 1 = VMM FS, Type 2 = host FS). \textbf{P2V/V2P} convert disk formats. VMM handles net disks.
+
+\textbf{Live Migration:} Copy running VM incl. CPU state, memory pages (iterative dirty page copy); no disk state. \textbf{MAC mobility} requires network switch support.
+
+\textbf{Container Problems Solved:} \textbf{VM CapEx/OpEx} (licenses, OS overhead) → Containers = low-cost, fast deploy. \textbf{Application Containment:} consistent, portable env; auto-packages apps + dependencies.

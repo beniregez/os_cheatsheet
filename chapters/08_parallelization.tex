@@ -1,9 +1,13 @@
 \subsubsection*{8) OpenMP \& Parallelization}
-Parallelization maps computation on data to parallel/distributed systems respecting dependencies. Key steps: analyze program parallelism, identify task/data parallelism, decompose granularity (fine, medium, coarse), and consider target system's communication cost.
+Parallelization maps computation on data to parallel/distributed systems respecting dependencies. Key steps: analyze program parallelism, identify \textbf{task/data parallelism}, decompose \textbf{granularity} (fine, medium, coarse), and consider communication cost.
 
-Dependencies include control (task order), data (flow, anti, output), and name dependencies. Mapping assigns subtasks spatially (which processor) and temporally (when), either statically or dynamically.
+Dependencies: \textbf{control} (task order), \textbf{data} (flow, anti, output), \textbf{name} dependencies. Mapping: assign subtasks spatially (processor) and temporally (when), \textbf{static/dynamic} scheduling.
 
-OpenMP is a shared-memory API for multi-threading via compiler directives (\#pragma omp), runtime libs, and env variables (e.g., OMP\_NUM\_THREADS). It simplifies parallel code with minimal changes, portable across multicore, NUMA, GPUs. Parallel regions execute copies of code; loops can be parallelized with `\#pragma omp parallel for`. Threads share variables, requiring synchronization to avoid races. Key functions: omp\_set\_num\_threads(), omp\_get\_thread\_num(), omp\_in\_parallel(), omp\_get\_num\_procs(), omp\_set\_dynamic().
+OpenMP: \textbf{shared-memory API} for multi-threading via \#pragma omp, runtime libs, env vars (OMP\_NUM\_THREADS). \textbf{Simplifies} parallel code, portable across multicore, NUMA, GPUs. Parallel regions execute copies of code; loops via \#pragma omp parallel for. Threads share vars, needing \textbf{synchronization} (critical, atomic, barriers) to avoid \textbf{races}. Functions: \texttt{omp\_set\_num\_threads()}, \texttt{omp\_get\_thread\_num()}, \texttt{omp\_in\_parallel()}, \texttt{omp\_get\_num\_procs()}, \texttt{omp\_set\_dynamic()}. Use \textbf{private}, \textbf{shared}, \textbf{reduction} clauses.
 
-Performance depends on enough parallelism, balanced load, data locality, and minimizing synchronization. Overheads arise from communication, especially between nodes. OpenMP is limited to shared-memory systems and lower parallel efficiency compared to distributed models like MPI.
+Limitations: OpenMP is \textbf{shared-memory only}, lower parallel efficiency vs MPI for distributed memory.
+Performance: needs enough parallelism, balanced load, data locality, minimize synchronization.
+Overhead: communication, cache effects, false sharing, load imbalance.
+Tools: \textbf{OMP\_NUM\_THREADS}, \textbf{OMP\_SCHEDULE}, \textbf{parallel loops}, critical sections, \textbf{barriers}.
 
+\textbf{Speedup limit:} Amdahl’s Law $S = 1 / (f + (1 - f) / N)$ (f=serial fraction). \textbf{Scalability:} impacted by sequential part, load imbalance, communication.
