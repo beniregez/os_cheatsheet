@@ -6,6 +6,8 @@ Ensure data consistency \& correct execution order when multiple threads / proce
 
 \textbf{Peterson's solution}: for 2 processes, uses \textbf{flags} and \textbf{turn} for atomic control.
 
+\includegraphics[width=0.95\linewidth]{images/04a_p17_peterson.png}
+
 \textbf{Mutex}: acquire/release lock for CS; \textbf{spinlocks} use busy waiting, preferred for short waits on SMP (Symmetric Multiprocessing).
 
 \textbf{Semaphores}: integer S, \textbf{wait} decrements, \textbf{signal} increments; can block processes in a waiting queue. Avoids busy waiting at app level but risks \textbf{deadlocks} and \textbf{starvation}.
